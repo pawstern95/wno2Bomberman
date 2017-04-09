@@ -269,7 +269,7 @@ class Board:
     def moveAgent(self, dir):
         if dir == Direction.RIGHT:
             x,y = self.agent.getPosition()
-            if (y < self.ySize - 1) and self.board[x][y+1] != 2 and self.board[x][y+1] != 3 and \
+            if self.board[x][y+1] != 2 and self.board[x][y+1] != 3 and \
                             self.board[x][y+1] != 4 and self.board[x][y+1] != 6:
                 self.takeOffAgent()
                 self.agent.moveRight()
@@ -280,7 +280,7 @@ class Board:
                     self.putAgent()
         elif dir == Direction.LEFT:
             x, y = self.agent.getPosition()
-            if y > 0 and self.board[x][y-1] != 2 and self.board[x][y-1] != 3 and \
+            if self.board[x][y-1] != 2 and self.board[x][y-1] != 3 and \
                             self.board[x][y-1] != 4 and self.board[x][y-1] != 6:
                 self.takeOffAgent()
                 self.agent.moveLeft()
@@ -291,7 +291,7 @@ class Board:
                     self.putAgent()
         elif dir == Direction.UP:
             x, y = self.agent.getPosition()
-            if x > 0 and self.board[x-1][y] != 2 and self.board[x-1][y] != 3 and \
+            if self.board[x-1][y] != 2 and self.board[x-1][y] != 3 and \
                             self.board[x-1][y] != 4 and self.board[x-1][y] != 6:
                 self.takeOffAgent()
                 self.agent.moveUp()
@@ -302,7 +302,7 @@ class Board:
                     self.putAgent()
         elif dir == Direction.DOWN:
             x, y = self.agent.getPosition()
-            if x < self.xSize-1 and self.board[x+1][y] != 2 and self.board[x+1][y] != 3 and \
+            if self.board[x+1][y] != 2 and self.board[x+1][y] != 3 and \
                             self.board[x+1][y] != 4 and self.board[x+1][y] != 6:
                 self.takeOffAgent()
                 self.agent.moveDown()
@@ -312,49 +312,46 @@ class Board:
                 else:
                     self.putAgent()
 
-        # TODO: usunąć ify sprawdzające granice
 
     def moveEnemy(self, enemy):
         if not enemy.isDead():
             x, y = enemy.getPosition()
             if enemy.direction == 1:
-                if self.board[x][y+1] == 0 and y < (self.ySize-1):
+                if self.board[x][y+1] == 0:
                     enemy.moveRight()
                     self.board[x][y] = 0
                     self.board[x][y+1] = enemy.id + 7
                 elif self.board[x][y+1] == 1:
                     self.agent.kill()
                 else:
-                    enemy.direction = 4
+                    enemy.direction = 3
             if enemy.direction == 2:
-                if self.board[x][y-1] == 0 and y > 0:
+                if self.board[x][y-1] == 0:
                     enemy.moveLeft()
                     self.board[x][y] = 0
                     self.board[x][y - 1] = enemy.id + 7
                 elif self.board[x][y-1] == 1:
                     self.agent.kill()
                 else:
-                    enemy.direction = 3
+                    enemy.direction = 4
             if enemy.direction == 3:
-                if self.board[x-1][y] == 0 and x > 0:
+                if self.board[x-1][y] == 0:
                     enemy.moveUp()
                     self.board[x][y] = 0
                     self.board[x-1][y] = enemy.id + 7
                 elif self.board[x-1][y] == 1:
                     self.agent.kill()
                 else:
-                    enemy.direction = 1
+                    enemy.direction = 2
             if enemy.direction == 4:
-                if self.board[x+1][y] == 0 and x < (self.xSize-1):
+                if self.board[x+1][y] == 0:
                     enemy.moveDown()
                     self.board[x][y] = 0
                     self.board[x+1][y] = enemy.id + 7
                 elif self.board[x+1][y] == 1:
                     self.agent.kill()
                 else:
-                    enemy.direction = 2
-
-        #TODO: usunąć ify sprawdzające granice
+                    enemy.direction = 1
 
     def genBoard(self):
         for x in range(0, self.xSize):
@@ -365,7 +362,7 @@ class Board:
                     if y%2 == 0:
                         self.board[x][y]=Stone().putStone()
                 if self.board[x][y] != 2:
-                    if (x, y) != (0, 0) and (x, y) != (0, 1) and (x, y) != (0, 2) and (x, y) != (0, 3) and (x, y) != (1, 0):
+                    if (x, y) != (1, 1) and (x, y) != (1, 2) and (x, y) != (1, 3) and (x, y) != (1, 4) and (x, y) != (2, 1):
                         if random.randrange(0, 4) == 0:
                             self.board[x][y] = Stone(toughness=False).putStone()
 
