@@ -1,20 +1,19 @@
 import numpy as np
 from enum import Enum
-import os
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
-from PyQt5 import QtTest
 import sys
 import random
 
-# amounts on board:
+# objects on board:
 # 1 - agent
-# 2 - undestroyable stone
-# 3 - destroyable stone
+# 2 - indestractible stone
+# 3 - destractible stone
 # 4 - weak bomb
 # 5 - agent with weak bomb
 # 6 - strong bomb
 # 7 - agent with strong bomb
+# 8 - enemy
 
 class Direction(Enum):
     RIGHT = 1
@@ -38,23 +37,13 @@ class Stone:
             return 3
 
 
-class Agent:
+class Character:
     xPosition = 0
     yPosition = 0
-    bombs3 = []
-    bombs1 = []
     destroyed = False
 
-    def addBombs(self, amount=5, scope=1):
-        if scope == 1:
-            for i in range(0, amount):
-                self.bombs1.append(Bomb(scope=scope))
-        else:
-            for i in range(0, amount):
-                self.bombs3.append(Bomb(scope=scope))
-
     def getPosition(self):
-        return (self.xPosition, self.yPosition)
+        return self.xPosition, self.yPosition
 
     def setPosition(self, xPos, yPos):
         self.xPosition = xPos
@@ -76,6 +65,31 @@ class Agent:
         x,y = self.getPosition()
         self.setPosition(x+1, y)
 
+    def kill(self):
+        self.destroyed = True
+
+    def isAlive(self):
+        return self.destroyed
+
+class Enemy(Character):
+    def __init__(self):
+        super()
+
+class Agent(Character):
+    # xPosition = 0
+    # yPosition = 0
+    bombs3 = []
+    bombs1 = []
+    # destroyed = False
+
+    def addBombs(self, amount=5, scope=1):
+        if scope == 1:
+            for i in range(0, amount):
+                self.bombs1.append(Bomb(scope=scope))
+        else:
+            for i in range(0, amount):
+                self.bombs3.append(Bomb(scope=scope))
+
     def dropBomb1(self):
         if self.bombs1:
             self.bombs1.pop()
@@ -90,12 +104,6 @@ class Agent:
         else:
             return 1, True
 
-    def killAgent(self):
-        self.destroyed = True
-
-    def alive(self):
-        return self.destroyed
-
 
 class Board:
     def __init__(self, agent, xSize = 40, ySize = 40):
@@ -105,11 +113,34 @@ class Board:
         self.genBoard()
         self.agent = agent
         self.putAgent()
-
+        self.genEnemies()
 
     def putAgent(self):
         x,y = self.agent.getPosition()
         self.board[x][y] = 1
+
+    def genEnemies(self):
+        self.enemy1 = Enemy()
+        self.putEnemy(self.enemy1)
+        self.enemy2 = Enemy()
+        self.putEnemy(self.enemy2)
+        self.enemy3 = Enemy()
+        self.putEnemy(self.enemy3)
+        self.enemy4 = Enemy()
+        self.putEnemy(self.enemy4)
+        self.enemy5 = Enemy()
+        self.putEnemy(self.enemy5)
+
+    def putEnemy(self, enemy):
+        while True:
+            x = random.randrange(1, self.xSize)
+            y = random.randrange(1, self.ySize)
+            if self.board[x][y] != 0:
+                continue
+            else:
+                self.board[x][y] = 8
+                enemy.setPosition(x, y)
+                break
 
     def takeOffAgent(self):
         x, y = self.agent.getPosition()
@@ -121,7 +152,7 @@ class Board:
                 self.board[x][y+i] = 0
             elif self.board[x][y+i] == 1 or self.board[x][y+i] == 5 or self.board[x][y+i] == 7:
                 self.board[x][y+i] = 0
-                self.agent.killAgent()
+                self.agent.kill()
             elif self.board[x][y+i] == 2:
                 break
         for i in range(0, ran + 1):
@@ -129,7 +160,7 @@ class Board:
                 self.board[x-i][y] = 0
             elif self.board[x-i][y] == 1 or self.board[x-i][y] == 5 or self.board[x-i][y] == 7:
                 self.board[x-i][y] = 0
-                self.agent.killAgent()
+                self.agent.kill()
             elif self.board[x-i][y] == 2:
                 break
         for i in range(0, ran + 1):
@@ -137,7 +168,7 @@ class Board:
                 self.board[x+i][y] = 0
             elif self.board[x+i][y] == 1 or self.board[x+i][y] == 5 or self.board[x+i][y] == 7:
                 self.board[x+i][y] = 0
-                self.agent.killAgent()
+                self.agent.kill()
             elif self.board[x+1][y] == 2:
                 break
         for i in range(0, ran + 1):
@@ -145,7 +176,7 @@ class Board:
                 self.board[x][y-i] = 0
             elif self.board[x][y - i] == 1 or self.board[x][y - i] == 5 or self.board[x][y - i] == 7:
                 self.board[x][y-i] = 0
-                self.agent.killAgent()
+                self.agent.kill()
             elif self.board[x][y - i] == 2:
                 break
 
@@ -193,17 +224,6 @@ class Board:
                 self.takeOffAgent()
                 self.agent.moveDown()
                 self.putAgent()
-
-    # def genBoard(self):
-    #     for x in range(0, self.xSize):
-    #         for y in range(0, self.ySize):
-    #             prob = random.randrange(0,4)
-    #             if prob == 0:
-    #                 # put undestroyable stone
-    #                 self.board[x][y] = Stone().putStone()
-    #             elif prob == 1:
-    #                 # put destroyable stone
-    #                 self.board[x][y] = Stone(False).putStone()
 
     def genBoard(self):
         for x in range(0, self.xSize):
@@ -273,7 +293,7 @@ class Main(QWidget):
     def displayBoard(self):
         print('\n' * 100)
 
-        if(self.board.agent.alive()):
+        if(self.board.agent.isAlive()):
             print('GAME OVER')
         else:
             array = []
