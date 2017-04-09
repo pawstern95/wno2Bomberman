@@ -194,24 +194,36 @@ class Board:
                 self.agent.moveDown()
                 self.putAgent()
 
+    # def genBoard(self):
+    #     for x in range(0, self.xSize):
+    #         for y in range(0, self.ySize):
+    #             prob = random.randrange(0,4)
+    #             if prob == 0:
+    #                 # put undestroyable stone
+    #                 self.board[x][y] = Stone().putStone()
+    #             elif prob == 1:
+    #                 # put destroyable stone
+    #                 self.board[x][y] = Stone(False).putStone()
+
     def genBoard(self):
         for x in range(0, self.xSize):
             for y in range(0, self.ySize):
-                prob = random.randrange(0,4)
-                if prob == 0:
-                    # put undestroyable stone
-                    self.board[x][y] = Stone().putStone()
-                elif prob == 1:
-                    # put destroyable stone
-                    self.board[x][y] = Stone(False).putStone()
+                if x%2 != 0:
+                    if y%2 != 0:
+                        self.board[x][y]=Stone().putStone()
+                if self.board[x][y] != 2:
+                    if (x, y) != (0, 0) and (x, y) != (0, 1) and (x, y) != (0, 2) and (x, y) != (0, 3) and (x, y) != (1, 0):
+                        if random.randrange(0, 2) == 0:
+                            self.board[x][y] = Stone(False).putStone()
+
 
 class Main(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
         self.agent = Agent()
-        self.agent.addBombs()
-        self.agent.addBombs(amount=2, scope=3)
+        self.agent.addBombs(amount=50)
+        self.agent.addBombs(amount=20, scope=3)
         self.board = Board(self.agent, 30, 30)
         self.displayBoard()
         self.timers = []
