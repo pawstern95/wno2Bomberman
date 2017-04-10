@@ -5,7 +5,6 @@ from Objects import Direction
 from Characters import Agent
 from Board import Board
 
-
 # objects on board:
 # 1 - agent
 # 2 - indestractible stone
@@ -26,13 +25,6 @@ from Board import Board
 # 17 - bomb5
 # 18 - agent with bomb5
 
-
-
-
-
-
-
-
 class Main(QWidget):
     def __init__(self):
         super().__init__()
@@ -44,7 +36,6 @@ class Main(QWidget):
         self.agent.addBombs(amount=10, scope=4)
         self.agent.addBombs(amount=5, scope=5)
         self.board = Board(self.agent,31,31)
-        #self.displayBoard()
         self.timers = []
         self.timer = QTimer()
         self.timer.setInterval(700)
@@ -64,16 +55,12 @@ class Main(QWidget):
     def keyPressEvent(self, e):
         if e.key() == Qt.Key_Right:
             self.board.moveAgent(Direction.RIGHT)
-            #self.displayBoard()
         elif e.key() == Qt.Key_Left:
             self.board.moveAgent(Direction.LEFT)
-            #self.displayBoard()
         elif e.key() == Qt.Key_Up:
             self.board.moveAgent(Direction.UP)
-            #self.displayBoard()
         elif e.key() == Qt.Key_Down:
             self.board.moveAgent(Direction.DOWN)
-            #self.displayBoard()
         elif e.key() == Qt.Key_Z:
             x, y, empty = self.board.dropBomb1()
             if not empty:
@@ -132,7 +119,6 @@ class Main(QWidget):
             for x in range(0, self.board.xSize):
                 row = ''
                 for y in range(0, self.board.ySize):
-                    #row += str(self.board.board[x][y])[:1] + ' '
                     value = str(self.board.board[x][y])[:2]
                     if value == '0.':
                         row += '  '
