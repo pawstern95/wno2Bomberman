@@ -198,96 +198,100 @@ class Board:
 
     def destroyWithBomb(self, x, y, ran):
         for i in range(0, ran+1):
-            if self.board[x][y+i] == 3 or self.board[x][y+i] == 4 or self.board[x][y+i] == 6:
+            value1 = self.board[x][y+i]
+            if value1 == 3 or value1 == 4 or value1 == 6 or value1 == 13 or value1 == 15 or value1 == 17:
                 self.board[x][y+i] = 0
-            elif self.board[x][y+i] == 1 or self.board[x][y+i] == 5 or self.board[x][y+i] == 7:
+            elif value1 == 1 or value1 == 5 or value1 == 7 or value1 == 14 or value1 == 16 or value1 == 18:
                 self.board[x][y+i] = 0
                 self.agent.kill()
-            elif self.board[x][y+i] == 8:
+            elif value1 == 8:
                 self.board[x][y+i] = 0
                 self.enemy1.kill()
-            elif self.board[x][y+i] == 9:
+            elif value1 == 9:
                 self.board[x][y+i] = 0
                 self.enemy2.kill()
-            elif self.board[x][y+i] == 10:
+            elif value1 == 10:
                 self.board[x][y+i] = 0
                 self.enemy3.kill()
-            elif self.board[x][y+i] == 11:
+            elif value1 == 11:
                 self.board[x][y+i] = 0
                 self.enemy4.kill()
-            elif self.board[x][y+i] == 12:
+            elif value1 == 12:
                 self.board[x][y+i] = 0
                 self.enemy5.kill()
-            elif self.board[x][y+i] == 2:
+            elif value1 == 2:
                 break
         for i in range(0, ran + 1):
-            if self.board[x-i][y] == 3 or self.board[x-i][y] == 4 or self.board[x-i][y] == 6:
+            value2 = self.board[x-i][y]
+            if value2 == 3 or value2 == 4 or value2 == 6 or value2 == 13 or value2 == 15 or value2 == 17:
                 self.board[x-i][y] = 0
-            elif self.board[x-i][y] == 1 or self.board[x-i][y] == 5 or self.board[x-i][y] == 7:
+            elif value2 == 1 or value2 == 5 or value2 == 7 or value2 == 14 or value2 == 16 or value2 == 18:
                 self.board[x-i][y] = 0
                 self.agent.kill()
-            elif self.board[x-i][y] == 8:
+            elif value2 == 8:
                 self.board[x-i][y] = 0
                 self.enemy1.kill()
-            elif self.board[x-i][y] == 9:
+            elif value2 == 9:
                 self.board[x-i][y] = 0
                 self.enemy2.kill()
-            elif self.board[x-i][y] == 10:
+            elif value2 == 10:
                 self.board[x-i][y] = 0
                 self.enemy3.kill()
-            elif self.board[x-i][y] == 11:
+            elif value2 == 11:
                 self.board[x-i][y] = 0
                 self.enemy4.kill()
-            elif self.board[x-i][y] == 12:
+            elif value2 == 12:
                 self.board[x-i][y] = 0
                 self.enemy5.kill()
-            elif self.board[x-i][y] == 2:
+            elif value2 == 2:
                 break
         for i in range(0, ran + 1):
-            if self.board[x+i][y] == 3 or self.board[x+i][y] == 4 or self.board[x+i][y] == 6:
+            value3 = self.board[x+i][y]
+            if value3 == 3 or value3 == 4 or value3 == 6 or value3 == 13 or value3 == 15 or value3 == 17:
                 self.board[x+i][y] = 0
-            elif self.board[x+i][y] == 1 or self.board[x+i][y] == 5 or self.board[x+i][y] == 7:
+            elif value3 == 1 or value3 == 5 or value3 == 7 or value3 == 14 or value3 == 16 or value3 == 18:
                 self.board[x+i][y] = 0
                 self.agent.kill()
-            elif self.board[x+i][y] == 8:
+            elif value3 == 8:
                 self.board[x+i][y] = 0
                 self.enemy1.kill()
-            elif self.board[x+i][y] == 9:
+            elif value3 == 9:
                 self.board[x+i][y] = 0
                 self.enemy2.kill()
-            elif self.board[x+i][y] == 10:
+            elif value3 == 10:
                 self.board[x+i][y] = 0
                 self.enemy3.kill()
-            elif self.board[x+i][y] == 11:
+            elif value3 == 11:
                 self.board[x+i][y] = 0
                 self.enemy4.kill()
-            elif self.board[x+i][y] == 12:
+            elif value3 == 12:
                 self.board[x+i][y] = 0
                 self.enemy5.kill()
-            elif self.board[x+1][y] == 2:
+            elif value3 == 2:
                 break
         for i in range(0, ran + 1):
-            if self.board[x][y-i] == 3 or self.board[x][y-i] == 4 or self.board[x][y-i] == 6:
+            value4 = self.board[x][y-i]
+            if value4 == 3 or value4 == 4 or value4 == 6 or value4 == 13 or value4 == 15 or value4 == 17:
                 self.board[x][y-i] = 0
-            elif self.board[x][y - i] == 1 or self.board[x][y - i] == 5 or self.board[x][y - i] == 7:
+            elif value4 == 1 or value4 == 5 or value4 == 7 or value4 == 14 or value4 == 16 or value4 == 18:
                 self.board[x][y-i] = 0
                 self.agent.kill()
-            elif self.board[x][y-i] == 8:
+            elif value4 == 8:
                 self.board[x][y-i] = 0
                 self.enemy1.kill()
-            elif self.board[x][y-i] == 9:
+            elif value4 == 9:
                 self.board[x][y-i] = 0
                 self.enemy2.kill()
-            elif self.board[x][y-i] == 10:
+            elif value4 == 10:
                 self.board[x][y-i] = 0
                 self.enemy3.kill()
-            elif self.board[x][y-i] == 11:
+            elif value4 == 11:
                 self.board[x][y-i] = 0
                 self.enemy4.kill()
-            elif self.board[x][y-i] == 12:
+            elif value4 == 12:
                 self.board[x][y-i] = 0
                 self.enemy5.kill()
-            elif self.board[x][y - i] == 2:
+            elif value4 == 2:
                 break
 
     def dropBomb1(self):
@@ -384,7 +388,7 @@ class Board:
                     self.agent.kill()
                 else:
                     enemy.direction = 3
-            if enemy.direction == 2:
+            elif enemy.direction == 2:
                 if self.board[x][y-1] == 0:
                     enemy.moveLeft()
                     self.board[x][y] = 0
@@ -393,7 +397,7 @@ class Board:
                     self.agent.kill()
                 else:
                     enemy.direction = 4
-            if enemy.direction == 3:
+            elif enemy.direction == 3:
                 if self.board[x-1][y] == 0:
                     enemy.moveUp()
                     self.board[x][y] = 0
@@ -402,7 +406,7 @@ class Board:
                     self.agent.kill()
                 else:
                     enemy.direction = 2
-            if enemy.direction == 4:
+            elif enemy.direction == 4:
                 if self.board[x+1][y] == 0:
                     enemy.moveDown()
                     self.board[x][y] = 0
@@ -432,8 +436,11 @@ class Main(QWidget):
         self.initUI()
         self.agent = Agent()
         self.agent.addBombs(amount=50)
-        self.agent.addBombs(amount=20, scope=3)
-        self.board = Board(self.agent)
+        self.agent.addBombs(amount=30, scope=2)
+        self.agent.addBombs(amount=15, scope=3)
+        self.agent.addBombs(amount=10, scope=4)
+        self.agent.addBombs(amount=5, scope=5)
+        self.board = Board(self.agent,31,31)
         #self.displayBoard()
         self.timers = []
         self.timer = QTimer()
@@ -464,26 +471,49 @@ class Main(QWidget):
         elif e.key() == Qt.Key_Down:
             self.board.moveAgent(Direction.DOWN)
             #self.displayBoard()
-        elif e.key() == Qt.Key_Space:
+        elif e.key() == Qt.Key_Z:
             x, y, empty = self.board.dropBomb1()
             if not empty:
-                #self.displayBoard()
                 self.timers.append(QTimer())
                 self.timers[len(self.timers) - 1].setInterval(3000)
                 timer = self.timers[len(self.timers) - 1]
                 timer.timeout.connect(lambda: self.board.destroyWithBomb(x, y, 1))
-                #timer.timeout.connect(self.displayBoard)
                 timer.timeout.connect(timer.stop)
                 timer.start()
-        elif e.key() == Qt.Key_Alt:
+        elif e.key() == Qt.Key_X:
+            x, y, empty = self.board.dropBomb2()
+            if not empty:
+                self.timers.append(QTimer())
+                self.timers[len(self.timers) - 1].setInterval(3000)
+                timer = self.timers[len(self.timers) - 1]
+                timer.timeout.connect(lambda: self.board.destroyWithBomb(x, y, 2))
+                timer.timeout.connect(timer.stop)
+                timer.start()
+        elif e.key() == Qt.Key_C:
             x, y, empty = self.board.dropBomb3()
             if not empty:
-                #self.displayBoard()
                 self.timers.append(QTimer())
                 self.timers[len(self.timers) - 1].setInterval(3000)
                 timer = self.timers[len(self.timers) - 1]
                 timer.timeout.connect(lambda: self.board.destroyWithBomb(x, y, 3))
-                #timer.timeout.connect(self.displayBoard)
+                timer.timeout.connect(timer.stop)
+                timer.start()
+        elif e.key() == Qt.Key_V:
+            x, y, empty = self.board.dropBomb4()
+            if not empty:
+                self.timers.append(QTimer())
+                self.timers[len(self.timers) - 1].setInterval(3000)
+                timer = self.timers[len(self.timers) - 1]
+                timer.timeout.connect(lambda: self.board.destroyWithBomb(x, y, 4))
+                timer.timeout.connect(timer.stop)
+                timer.start()
+        elif e.key() == Qt.Key_B:
+            x, y, empty = self.board.dropBomb5()
+            if not empty:
+                self.timers.append(QTimer())
+                self.timers[len(self.timers) - 1].setInterval(3000)
+                timer = self.timers[len(self.timers) - 1]
+                timer.timeout.connect(lambda: self.board.destroyWithBomb(x, y, 5))
                 timer.timeout.connect(timer.stop)
                 timer.start()
 
@@ -500,31 +530,28 @@ class Main(QWidget):
                 row = ''
                 for y in range(0, self.board.ySize):
                     #row += str(self.board.board[x][y])[:1] + ' '
-                    if str(self.board.board[x][y])[:2] == '0.':
+                    value = str(self.board.board[x][y])[:2]
+                    if value == '0.':
                         row += '  '
-                    if str(self.board.board[x][y])[:2] == '1.':
+                    elif value == '1.':
                         row += 'p '
-                    if str(self.board.board[x][y])[:2] == '2.':
+                    elif value == '2.':
                         row += '# '
-                    if str(self.board.board[x][y])[:2] == '3.':
+                    elif value == '3.':
                         row += '* '
-                    if str(self.board.board[x][y])[:2] == '4.':
+                    elif value == '4.' or value == '6.' or value == '13' or value == '15' or value == '17':
                         row += 'b '
-                    if str(self.board.board[x][y])[:2] == '5.':
+                    elif value == '5.' or value == '7.' or value == '14' or value == '16' or value == '18':
                         row += 'r '
-                    if str(self.board.board[x][y])[:2] == '6.':
-                        row += 's '
-                    if str(self.board.board[x][y])[:2] == '7.':
-                        row += 'r '
-                    if str(self.board.board[x][y])[:2] == '8.':
+                    elif value == '8.':
                         row += 'e '
-                    if str(self.board.board[x][y])[:2] == '9.':
+                    elif value == '9.':
                         row += 'e '
-                    if str(self.board.board[x][y])[:2] == '10':
+                    elif value == '10':
                         row += 'e '
-                    if str(self.board.board[x][y])[:2] == '11':
+                    elif value == '11':
                         row += 'e '
-                    if str(self.board.board[x][y])[:2] == '12':
+                    elif value == '12':
                         row += 'e '
                 array.append(row)
             for i in range(0, len(array)):
