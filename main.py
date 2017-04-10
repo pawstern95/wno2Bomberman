@@ -9,15 +9,21 @@ import random
 # 1 - agent
 # 2 - indestractible stone
 # 3 - destractible stone
-# 4 - weak bomb
-# 5 - agent with weak bomb
-# 6 - strong bomb
-# 7 - agent with strong bomb
+# 4 - bomb1
+# 5 - agent with bomb1
+# 6 - bomb3
+# 7 - agent with bomb3
 # 8 - enemy1
 # 9 - enemy2
 # 10 - enemy3
 # 11 - enemy4
 # 12 - enemy5
+# 13 - bomb2
+# 14 - agent with bomb2
+# 15 - bomb4
+# 16 - agent with bomb4
+# 17 - bomb5
+# 18 - agent with bomb5
 
 class Direction(Enum):
     RIGHT = 1
@@ -81,21 +87,54 @@ class Enemy(Character):
         self.direction = 1
 
 class Agent(Character):
+    bombs5 = []
+    bombs4 = []
     bombs3 = []
+    bombs2 = []
     bombs1 = []
 
     def addBombs(self, amount=5, scope=1):
         if scope == 1:
             for i in range(0, amount):
                 self.bombs1.append(Bomb(scope=scope))
-        else:
+        elif scope == 2:
+            for i in range(0, amount):
+                self.bombs2.append(Bomb(scope=scope))
+        elif scope == 3:
             for i in range(0, amount):
                 self.bombs3.append(Bomb(scope=scope))
+        elif scope == 4:
+            for i in range(0, amount):
+                self.bombs4.append(Bomb(scope=scope))
+        elif scope == 5:
+            for i in range(0, amount):
+                self.bombs5.append(Bomb(scope=scope))
 
     def dropBomb1(self):
         if self.bombs1:
             self.bombs1.pop()
             return 5, False
+        else:
+            return 1, True
+
+    def dropBomb2(self):
+        if self.bombs2:
+            self.bombs2.pop()
+            return 14, False
+        else:
+            return 1, True
+
+    def dropBomb4(self):
+        if self.bombs1:
+            self.bombs1.pop()
+            return 16, False
+        else:
+            return 1, True
+
+    def dropBomb5(self):
+        if self.bombs1:
+            self.bombs1.pop()
+            return 18, False
         else:
             return 1, True
 
@@ -258,6 +297,26 @@ class Board:
             self.board[x][y] = value
         return x, y, empty
 
+    def dropBomb2(self):
+        x, y = self.agent.getPosition()
+        if self.board[x][y] == 1:
+            value, empty = self.agent.dropBomb2()
+            self.board[x][y] = value
+        return x, y, empty
+
+    def dropBomb4(self):
+        x, y = self.agent.getPosition()
+        if self.board[x][y] == 1:
+            value, empty = self.agent.dropBomb4()
+            self.board[x][y] = value
+        return x, y, empty
+
+    def dropBomb5(self):
+        x, y = self.agent.getPosition()
+        if self.board[x][y] == 1:
+            value, empty = self.agent.dropBomb5()
+            self.board[x][y] = value
+        return x, y, empty
 
     def dropBomb3(self):
         x, y = self.agent.getPosition()
@@ -374,7 +433,7 @@ class Main(QWidget):
         self.agent = Agent()
         self.agent.addBombs(amount=50)
         self.agent.addBombs(amount=20, scope=3)
-        self.board = Board(self.agent, 31, 31)
+        self.board = Board(self.agent)
         #self.displayBoard()
         self.timers = []
         self.timer = QTimer()
