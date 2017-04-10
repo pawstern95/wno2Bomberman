@@ -1,9 +1,11 @@
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 import sys
+import os
 from Objects import Direction
 from Characters import Agent
 from Board import Board
+
 
 # objects on board:
 # 1 - agent
@@ -25,7 +27,7 @@ from Board import Board
 # 17 - bomb5
 # 18 - agent with bomb5
 
-class Main(QWidget):
+class Main(QMainWindow):
     def __init__(self):
         super().__init__()
         self.initUI()
@@ -35,20 +37,23 @@ class Main(QWidget):
         self.agent.addBombs(amount=15, scope=3)
         self.agent.addBombs(amount=10, scope=4)
         self.agent.addBombs(amount=5, scope=5)
-        self.board = Board(self.agent,31,31)
+        self.board = Board(self.agent,41,41)
         self.timers = []
         self.timer = QTimer()
         self.timer.setInterval(700)
+        self.mainTimer = QTimer()
+        self.mainTimer.setInterval(300)
         self.timer.timeout.connect(lambda: self.board.moveEnemy(self.board.enemy1))
         self.timer.timeout.connect(lambda: self.board.moveEnemy(self.board.enemy2))
         self.timer.timeout.connect(lambda: self.board.moveEnemy(self.board.enemy3))
         self.timer.timeout.connect(lambda: self.board.moveEnemy(self.board.enemy4))
         self.timer.timeout.connect(lambda: self.board.moveEnemy(self.board.enemy5))
-        self.timer.timeout.connect(self.displayBoard)
+        self.mainTimer.timeout.connect(self.displayBoard)
         self.timer.start()
+        self.mainTimer.start()
 
     def initUI(self):
-        self.setGeometry(300, 300, 250, 150)
+        self.setGeometry(300, 100, 800, 600)
         self.setWindowTitle('Bomberman')
         self.show()
 
@@ -109,7 +114,7 @@ class Main(QWidget):
 
 
     def displayBoard(self):
-        print('\n' * 100)
+        os.system("cls")
 
         if(self.board.agent.isDead()):
             print('GAME OVER')
