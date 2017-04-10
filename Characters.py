@@ -1,3 +1,5 @@
+from Objects import Bomb
+
 class Character:
     xPosition = 1
     yPosition = 1

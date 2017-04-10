@@ -1,9 +1,10 @@
-import numpy as np
-from enum import Enum
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 import sys
-import random
+from Objects import Direction
+from Characters import Agent
+from Board import Board
+
 
 # objects on board:
 # 1 - agent
