@@ -3,6 +3,7 @@ import numpy as np
 from Characters import Agent, Enemy
 from Objects import Stone, Bomb, Direction
 
+
 class Board:
     def __init__(self, agent, xSize = 41, ySize = 41):
         self.xSize = xSize
@@ -188,46 +189,42 @@ class Board:
 
     def moveAgent(self, dir):
         if dir == Direction.RIGHT:
-            x,y = self.agent.getPosition()
-            if self.board[x][y+1] != 2 and self.board[x][y+1] != 3 and \
-                            self.board[x][y+1] != 4 and self.board[x][y+1] != 6:
+            x, y = self.agent.getPosition()
+            value1 = self.board[x][y+1]
+            if value1 != 2 and value1 != 3 and value1 != 4 and value1 != 6 and value1 != 13 and value1 != 15 and value1 != 17:
                 self.takeOffAgent()
                 self.agent.moveRight()
-                if self.board[x][y+1] == 8 or self.board[x][y+1] == 9 or self.board[x][y+1] == 10 or\
-                            self.board[x][y+1] == 11 or self.board[x][y+1] == 12:
+                if value1 == 8 or value1 == 9 or value1 == 10 or value1 == 11 or value1 == 12:
                     self.agent.kill()
                 else:
                     self.putAgent()
         elif dir == Direction.LEFT:
             x, y = self.agent.getPosition()
-            if self.board[x][y-1] != 2 and self.board[x][y-1] != 3 and \
-                            self.board[x][y-1] != 4 and self.board[x][y-1] != 6:
+            value2 = self.board[x][y-1]
+            if value2 != 2 and value2 != 3 and value2 != 4 and value2 != 6 and value2 != 13 and value2 != 15 and value2 != 17:
                 self.takeOffAgent()
                 self.agent.moveLeft()
-                if self.board[x][y-1] == 8 or self.board[x][y-1] == 9 or self.board[x][y-1] == 10 or\
-                            self.board[x][y-1] == 11 or self.board[x][y-1] == 12:
+                if value2 == 8 or value2 == 9 or value2 == 10 or value2 == 11 or value2 == 12:
                     self.agent.kill()
                 else:
                     self.putAgent()
         elif dir == Direction.UP:
             x, y = self.agent.getPosition()
-            if self.board[x-1][y] != 2 and self.board[x-1][y] != 3 and \
-                            self.board[x-1][y] != 4 and self.board[x-1][y] != 6:
+            value3 = self.board[x-1][y]
+            if value3 != 2 and value3 != 3 and value3 != 4 and value3 != 6 and value3 != 13 and value3 != 15 and value3 != 17:
                 self.takeOffAgent()
                 self.agent.moveUp()
-                if self.board[x-1][y] == 8 or self.board[x-1][y] == 9 or self.board[x-1][y] == 10 or\
-                            self.board[x-1][y] == 11 or self.board[x-1][y] == 12:
+                if value3 == 8 or value3 == 9 or value3 == 10 or value3 == 11 or value3 == 12:
                     self.agent.kill()
                 else:
                     self.putAgent()
         elif dir == Direction.DOWN:
             x, y = self.agent.getPosition()
-            if self.board[x+1][y] != 2 and self.board[x+1][y] != 3 and \
-                            self.board[x+1][y] != 4 and self.board[x+1][y] != 6:
+            value4 = self.board[x+1][y]
+            if value4 != 2 and value4 != 3 and value4 != 4 and value4 != 6 and value4 != 13 and value4 != 15 and value4 != 17:
                 self.takeOffAgent()
                 self.agent.moveDown()
-                if self.board[x+1][y] == 8 or self.board[x+1][y] == 9 or self.board[x+1][y] == 10 or\
-                            self.board[x+1][y] == 11 or self.board[x+1][y] == 12:
+                if value4 == 8 or value4 == 9 or value4 == 10 or value4 == 11 or value4 == 12:
                     self.agent.kill()
                 else:
                     self.putAgent()

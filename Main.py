@@ -1,7 +1,9 @@
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
 import sys
 import os
+import threading
 from Objects import Direction
 from Characters import Agent
 from Board import Board
@@ -29,7 +31,7 @@ from Board import Board
 
 class Main(QMainWindow):
     def __init__(self):
-        super().__init__()
+        super(Main, self).__init__()
         self.initUI()
         self.agent = Agent()
         self.agent.addBombs(amount=50)
@@ -37,23 +39,114 @@ class Main(QMainWindow):
         self.agent.addBombs(amount=15, scope=3)
         self.agent.addBombs(amount=10, scope=4)
         self.agent.addBombs(amount=5, scope=5)
-        self.board = Board(self.agent,41,41)
+        self.board = Board(self.agent, 41, 41)
         self.timers = []
         self.timer = QTimer()
         self.timer.setInterval(700)
-        self.mainTimer = QTimer()
-        self.mainTimer.setInterval(300)
         self.timer.timeout.connect(lambda: self.board.moveEnemy(self.board.enemy1))
         self.timer.timeout.connect(lambda: self.board.moveEnemy(self.board.enemy2))
         self.timer.timeout.connect(lambda: self.board.moveEnemy(self.board.enemy3))
         self.timer.timeout.connect(lambda: self.board.moveEnemy(self.board.enemy4))
         self.timer.timeout.connect(lambda: self.board.moveEnemy(self.board.enemy5))
-        self.mainTimer.timeout.connect(self.displayBoard)
         self.timer.start()
+        self.mainTimer = QTimer()
+        self.mainTimer.setInterval(30)
+        self.mainTimer.timeout.connect(self.repaint)
         self.mainTimer.start()
 
+    def paintEvent(self, event):
+        qp = QPainter()
+        qp.begin(self)
+        if not self.board.agent.isDead():
+            self.drawBoard(qp)
+        else:
+            self.close()
+        qp.end()
+
+    def drawStone(self, qp, moveX, moveY, sizeX=15, sizeY=15):
+
+        col = QColor(0, 0, 0)
+        col.setNamedColor('#d4d4d4')
+        qp.setPen(col)
+        qp.setBrush(QColor(0, 0, 0))
+        qp.drawRect(moveX, moveY, sizeX, sizeY)
+
+    def drawDestrStone(self, qp, moveX, moveY, sizeX=15, sizeY=15):
+
+        col = QColor(0, 0, 0)
+        col.setNamedColor('#d4d4d4')
+        qp.setPen(col)
+        qp.setBrush(QColor(0, 255, 0))
+        qp.drawRect(moveX, moveY, sizeX, sizeY)
+
+    def drawAgent(self, qp, moveX, moveY, sizeX=15, sizeY=15):
+
+        col = QColor(0, 0, 0)
+        col.setNamedColor('#d4d4d4')
+        qp.setPen(col)
+        qp.setBrush(QColor(0, 0, 255))
+        qp.drawRect(moveX, moveY, sizeX, sizeY)
+
+    def drawAgentWithBomb(self, qp, moveX, moveY, sizeX=15, sizeY=15):
+
+        col = QColor(0, 0, 0)
+        col.setNamedColor('#d4d4d4')
+        qp.setPen(col)
+        qp.setBrush(QColor(0, 255, 255))
+        qp.drawRect(moveX, moveY, sizeX, sizeY)
+
+    def drawBomb(self, qp, moveX, moveY, sizeX=15, sizeY=15):
+
+        col = QColor(0, 0, 0)
+        col.setNamedColor('#d4d4d4')
+        qp.setPen(col)
+        qp.setBrush(QColor(255, 255, 0))
+        qp.drawRect(moveX, moveY, sizeX, sizeY)
+
+    def drawWhiteSpace(self, qp, moveX, moveY, sizeX=15, sizeY=15):
+
+        col = QColor(0, 0, 0)
+        col.setNamedColor('#d4d4d4')
+        qp.setPen(col)
+        qp.setBrush(QColor(255, 255, 255))
+        qp.drawRect(moveX, moveY, sizeX, sizeY)
+
+    def drawEnemy(self, qp, moveX, moveY, sizeX=15, sizeY=15):
+
+        col = QColor(0, 0, 0)
+        col.setNamedColor('#d4d4d4')
+        qp.setPen(col)
+        qp.setBrush(QColor(255, 0, 0))
+        qp.drawRect(moveX, moveY, sizeX, sizeY)
+
+
+    def drawBoard(self, qp):
+        for x in range(0, self.board.xSize):
+            for y in range(0, self.board.ySize):
+                value = self.board.board[y][x]
+                sizeX = 17
+                sizeY = 17
+                moveX = x*sizeX
+                moveY = y*sizeY
+
+                if value == 0:
+                    self.drawWhiteSpace(qp, moveX, moveY, sizeX, sizeY)
+                elif value == 1:
+                    self.drawAgent(qp, moveX, moveY, sizeX, sizeY)
+                elif value == 2:
+                    self.drawStone(qp, moveX, moveY, sizeX, sizeY)
+                elif value == 3:
+                    self.drawDestrStone(qp, moveX, moveY, sizeX, sizeY)
+                elif value == 4 or value == 6 or value == 13 or value == 15 or value == 17:
+                    self.drawBomb(qp, moveX, moveY, sizeX, sizeY)
+                elif value == 5 or value == 7 or value == 14 or value == 16 or value == 18:
+                    self.drawAgentWithBomb(qp, moveX, moveY, sizeX, sizeY)
+                elif value == 8 or value == 9 or value == 10 or value == 11 or value == 12:
+                    self.drawEnemy(qp, moveX, moveY, sizeX, sizeY)
+
+
     def initUI(self):
-        self.setGeometry(300, 100, 800, 600)
+        self.setGeometry(300, 30, 900, 700)
         self.setWindowTitle('Bomberman')
         self.show()
 
@@ -150,6 +243,19 @@ class Main(QMainWindow):
                 array.append(row)
             for i in range(0, len(array)):
                 print(array[i])
+
+
+class MyThread(QThread):
+
+    def __init__(self, parent=None):
+        QThread.__init__(self,parent)
+
+    def start(self):
+        QThread.start(self)
+
+    def run(self):
+        QThread.run(self)
+
 
 
 if __name__ == '__main__':
