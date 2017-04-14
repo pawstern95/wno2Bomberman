@@ -68,7 +68,7 @@ class Main(QMainWindow):
         col = QColor(0, 0, 0)
         col.setNamedColor('#d4d4d4')
         qp.setPen(col)
-        qp.setBrush(QColor(0, 0, 0))
+        qp.setBrush(QColor(60, 60, 60))
         qp.drawRect(moveX, moveY, sizeX, sizeY)
 
     def drawDestrStone(self, qp, moveX, moveY, sizeX=15, sizeY=15):
@@ -86,17 +86,15 @@ class Main(QMainWindow):
         #blue
         col = QColor(0, 0, 0)
         col.setNamedColor('#d4d4d4')
-        qp.setPen(col)
-        qp.setBrush(QColor(0, 0, 255))
-        qp.drawRect(moveX, moveY, sizeX, sizeY)
+        qp.drawPixmap(moveX, moveY, sizeX, sizeY, QPixmap(os.getcwd() + '\\agent.png'))
 
     def drawAgentWithBomb(self, qp, moveX, moveY, sizeX=15, sizeY=15):
         #cyan
         col = QColor(0, 0, 0)
         col.setNamedColor('#d4d4d4')
         qp.setPen(col)
-        qp.setBrush(QColor(0, 255, 255))
-        qp.drawRect(moveX, moveY, sizeX, sizeY)
+        qp.setBrush(QColor(255, 0, 255))
+        qp.drawEllipse(moveX, moveY, sizeX, sizeY)
 
     def drawBomb(self, qp, moveX, moveY, sizeX=15, sizeY=15):
         #violet
@@ -118,9 +116,7 @@ class Main(QMainWindow):
         #red
         col = QColor(0, 0, 0)
         col.setNamedColor('#d4d4d4')
-        qp.setPen(col)
-        qp.setBrush(QColor(255, 255, 0))
-        qp.drawRect(moveX, moveY, sizeX, sizeY)
+        qp.drawPixmap(moveX, moveY, sizeX, sizeY, QPixmap(os.getcwd() + '\\enemy.png'))
 
 
     def drawBoard(self, qp):
