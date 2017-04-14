@@ -64,7 +64,7 @@ class Main(QMainWindow):
         qp.end()
 
     def drawStone(self, qp, moveX, moveY, sizeX=15, sizeY=15):
-
+        #black
         col = QColor(0, 0, 0)
         col.setNamedColor('#d4d4d4')
         qp.setPen(col)
@@ -72,15 +72,18 @@ class Main(QMainWindow):
         qp.drawRect(moveX, moveY, sizeX, sizeY)
 
     def drawDestrStone(self, qp, moveX, moveY, sizeX=15, sizeY=15):
-
+        #green
         col = QColor(0, 0, 0)
         col.setNamedColor('#d4d4d4')
         qp.setPen(col)
-        qp.setBrush(QColor(0, 255, 0))
+        brush = QBrush()
+        brush.setStyle(Qt.DiagCrossPattern)
+        qp.setBrush(brush)
+
         qp.drawRect(moveX, moveY, sizeX, sizeY)
 
     def drawAgent(self, qp, moveX, moveY, sizeX=15, sizeY=15):
-
+        #blue
         col = QColor(0, 0, 0)
         col.setNamedColor('#d4d4d4')
         qp.setPen(col)
@@ -88,7 +91,7 @@ class Main(QMainWindow):
         qp.drawRect(moveX, moveY, sizeX, sizeY)
 
     def drawAgentWithBomb(self, qp, moveX, moveY, sizeX=15, sizeY=15):
-
+        #cyan
         col = QColor(0, 0, 0)
         col.setNamedColor('#d4d4d4')
         qp.setPen(col)
@@ -96,15 +99,15 @@ class Main(QMainWindow):
         qp.drawRect(moveX, moveY, sizeX, sizeY)
 
     def drawBomb(self, qp, moveX, moveY, sizeX=15, sizeY=15):
-
+        #violet
         col = QColor(0, 0, 0)
         col.setNamedColor('#d4d4d4')
         qp.setPen(col)
-        qp.setBrush(QColor(255, 255, 0))
-        qp.drawRect(moveX, moveY, sizeX, sizeY)
+        qp.setBrush(QColor(255, 0, 0))
+        qp.drawEllipse(moveX, moveY, sizeX, sizeY)
 
     def drawWhiteSpace(self, qp, moveX, moveY, sizeX=15, sizeY=15):
-
+        #white
         col = QColor(0, 0, 0)
         col.setNamedColor('#d4d4d4')
         qp.setPen(col)
@@ -112,11 +115,11 @@ class Main(QMainWindow):
         qp.drawRect(moveX, moveY, sizeX, sizeY)
 
     def drawEnemy(self, qp, moveX, moveY, sizeX=15, sizeY=15):
-
+        #red
         col = QColor(0, 0, 0)
         col.setNamedColor('#d4d4d4')
         qp.setPen(col)
-        qp.setBrush(QColor(255, 0, 0))
+        qp.setBrush(QColor(255, 255, 0))
         qp.drawRect(moveX, moveY, sizeX, sizeY)
 
 
