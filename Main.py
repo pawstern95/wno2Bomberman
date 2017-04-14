@@ -32,7 +32,18 @@ from Board import Board
 class Main(QMainWindow):
     def __init__(self):
         super(Main, self).__init__()
+        self.initGame()
+        self.startButton = QPushButton('New Game', self)
+        self.startButton.setGeometry(800, 100, 70, 30)
+        self.startButton.clicked.connect(self.initGame)
         self.initUI()
+
+    def initUI(self):
+        self.setGeometry(300, 30, 900, 700)
+        self.setWindowTitle('Bomberman')
+        self.show()
+
+    def initGame(self):
         self.agent = Agent()
         self.agent.addBombs(amount=50)
         self.agent.addBombs(amount=30, scope=2)
@@ -59,8 +70,6 @@ class Main(QMainWindow):
         qp.begin(self)
         if not self.board.agent.isDead():
             self.drawBoard(qp)
-        else:
-            self.close()
         qp.end()
 
     def drawStone(self, qp, moveX, moveY, sizeX=15, sizeY=15):
@@ -144,19 +153,14 @@ class Main(QMainWindow):
                     self.drawEnemy(qp, moveX, moveY, sizeX, sizeY)
 
 
-    def initUI(self):
-        self.setGeometry(300, 30, 900, 700)
-        self.setWindowTitle('Bomberman')
-        self.show()
-
     def keyPressEvent(self, e):
-        if e.key() == Qt.Key_Right:
+        if e.key() == Qt.Key_D:
             self.board.moveAgent(Direction.RIGHT)
-        elif e.key() == Qt.Key_Left:
+        elif e.key() == Qt.Key_A:
             self.board.moveAgent(Direction.LEFT)
-        elif e.key() == Qt.Key_Up:
+        elif e.key() == Qt.Key_W:
             self.board.moveAgent(Direction.UP)
-        elif e.key() == Qt.Key_Down:
+        elif e.key() == Qt.Key_S:
             self.board.moveAgent(Direction.DOWN)
         elif e.key() == Qt.Key_Z:
             x, y, empty = self.board.dropBomb1()
@@ -242,19 +246,6 @@ class Main(QMainWindow):
                 array.append(row)
             for i in range(0, len(array)):
                 print(array[i])
-
-
-class MyThread(QThread):
-
-    def __init__(self, parent=None):
-        QThread.__init__(self,parent)
-
-    def start(self):
-        QThread.start(self)
-
-    def run(self):
-        QThread.run(self)
-
 
 
 if __name__ == '__main__':

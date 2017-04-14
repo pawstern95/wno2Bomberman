@@ -57,7 +57,10 @@ class Board:
     def destroyWithBomb(self, x, y, ran):
         for i in range(0, ran+1):
             value1 = self.board[x][y+i]
-            if value1 == 3 or value1 == 4 or value1 == 6 or value1 == 13 or value1 == 15 or value1 == 17:
+            if value1 == 3:
+                self.board[x][y+i] = 0
+                break
+            elif value1 == 4 or value1 == 6 or value1 == 13 or value1 == 15 or value1 == 17:
                 self.board[x][y+i] = 0
             elif value1 == 1 or value1 == 5 or value1 == 7 or value1 == 14 or value1 == 16 or value1 == 18:
                 self.board[x][y+i] = 0
@@ -65,23 +68,31 @@ class Board:
             elif value1 == 8:
                 self.board[x][y+i] = 0
                 self.enemy1.kill()
+                break
             elif value1 == 9:
                 self.board[x][y+i] = 0
                 self.enemy2.kill()
+                break
             elif value1 == 10:
                 self.board[x][y+i] = 0
                 self.enemy3.kill()
+                break
             elif value1 == 11:
                 self.board[x][y+i] = 0
                 self.enemy4.kill()
+                break
             elif value1 == 12:
                 self.board[x][y+i] = 0
                 self.enemy5.kill()
+                break
             elif value1 == 2:
                 break
         for i in range(0, ran + 1):
             value2 = self.board[x-i][y]
-            if value2 == 3 or value2 == 4 or value2 == 6 or value2 == 13 or value2 == 15 or value2 == 17:
+            if value2 == 3:
+                self.board[x - i][y] = 0
+                break
+            elif value2 == 4 or value2 == 6 or value2 == 13 or value2 == 15 or value2 == 17:
                 self.board[x-i][y] = 0
             elif value2 == 1 or value2 == 5 or value2 == 7 or value2 == 14 or value2 == 16 or value2 == 18:
                 self.board[x-i][y] = 0
@@ -89,23 +100,31 @@ class Board:
             elif value2 == 8:
                 self.board[x-i][y] = 0
                 self.enemy1.kill()
+                break
             elif value2 == 9:
                 self.board[x-i][y] = 0
                 self.enemy2.kill()
+                break
             elif value2 == 10:
                 self.board[x-i][y] = 0
                 self.enemy3.kill()
+                break
             elif value2 == 11:
                 self.board[x-i][y] = 0
                 self.enemy4.kill()
+                break
             elif value2 == 12:
                 self.board[x-i][y] = 0
                 self.enemy5.kill()
+                break
             elif value2 == 2:
                 break
         for i in range(0, ran + 1):
             value3 = self.board[x+i][y]
-            if value3 == 3 or value3 == 4 or value3 == 6 or value3 == 13 or value3 == 15 or value3 == 17:
+            if value3 == 3:
+                self.board[x+i][y] = 0
+                break
+            elif value3 == 4 or value3 == 6 or value3 == 13 or value3 == 15 or value3 == 17:
                 self.board[x+i][y] = 0
             elif value3 == 1 or value3 == 5 or value3 == 7 or value3 == 14 or value3 == 16 or value3 == 18:
                 self.board[x+i][y] = 0
@@ -113,23 +132,31 @@ class Board:
             elif value3 == 8:
                 self.board[x+i][y] = 0
                 self.enemy1.kill()
+                break
             elif value3 == 9:
                 self.board[x+i][y] = 0
                 self.enemy2.kill()
+                break
             elif value3 == 10:
                 self.board[x+i][y] = 0
                 self.enemy3.kill()
+                break
             elif value3 == 11:
                 self.board[x+i][y] = 0
                 self.enemy4.kill()
+                break
             elif value3 == 12:
                 self.board[x+i][y] = 0
                 self.enemy5.kill()
+                break
             elif value3 == 2:
                 break
         for i in range(0, ran + 1):
             value4 = self.board[x][y-i]
-            if value4 == 3 or value4 == 4 or value4 == 6 or value4 == 13 or value4 == 15 or value4 == 17:
+            if value4 == 3:
+                self.board[x][y-i] = 0
+                break
+            elif value4 == 4 or value4 == 6 or value4 == 13 or value4 == 15 or value4 == 17:
                 self.board[x][y-i] = 0
             elif value4 == 1 or value4 == 5 or value4 == 7 or value4 == 14 or value4 == 16 or value4 == 18:
                 self.board[x][y-i] = 0
@@ -137,18 +164,23 @@ class Board:
             elif value4 == 8:
                 self.board[x][y-i] = 0
                 self.enemy1.kill()
+                break
             elif value4 == 9:
                 self.board[x][y-i] = 0
                 self.enemy2.kill()
+                break
             elif value4 == 10:
                 self.board[x][y-i] = 0
                 self.enemy3.kill()
+                break
             elif value4 == 11:
                 self.board[x][y-i] = 0
                 self.enemy4.kill()
+                break
             elif value4 == 12:
                 self.board[x][y-i] = 0
                 self.enemy5.kill()
+                break
             elif value4 == 2:
                 break
 
@@ -157,35 +189,45 @@ class Board:
         if self.board[x][y] == 1:
             value, empty = self.agent.dropBomb1()
             self.board[x][y] = value
-        return x, y, empty
+            return x, y, empty
+        else:
+            return x, y, True
 
     def dropBomb2(self):
         x, y = self.agent.getPosition()
         if self.board[x][y] == 1:
             value, empty = self.agent.dropBomb2()
             self.board[x][y] = value
-        return x, y, empty
+            return x, y, empty
+        else:
+            return x, y, True
 
     def dropBomb4(self):
         x, y = self.agent.getPosition()
         if self.board[x][y] == 1:
             value, empty = self.agent.dropBomb4()
             self.board[x][y] = value
-        return x, y, empty
+            return x, y, empty
+        else:
+            return x, y, True
 
     def dropBomb5(self):
         x, y = self.agent.getPosition()
         if self.board[x][y] == 1:
             value, empty = self.agent.dropBomb5()
             self.board[x][y] = value
-        return x, y, empty
+            return x, y, empty
+        else:
+            return x, y, True
 
     def dropBomb3(self):
         x, y = self.agent.getPosition()
         if self.board[x][y] == 1:
             value, empty = self.agent.dropBomb3()
             self.board[x][y] = value
-        return x, y, empty
+            return x, y, empty
+        else:
+            return x, y, True
 
     def moveAgent(self, dir):
         if dir == Direction.RIGHT:
