@@ -33,10 +33,31 @@ class Main(QMainWindow):
     def __init__(self):
         super(Main, self).__init__()
         self.initGame()
+
         self.startButton = QPushButton('New Game', self)
-        self.startButton.setGeometry(800, 100, 70, 30)
+        self.startButton.setGeometry(750, 200, 70, 30)
+        self.startButton.clicked.connect(lambda: self.pauseButton.setText('Pause    '))
         self.startButton.clicked.connect(self.initGame)
+
+        self.pauseButton = QPushButton('Pause   ', self)
+        self.pauseButton.setGeometry(750, 250, 70, 30)
+        self.pauseButton.clicked.connect(self.pauseAction)
+
+        self.scoreLabel = QLabel('Score: {0}   '.format(self.board.score), self)
+        self.scoreLabel.move(750, 60)
+
         self.initUI()
+
+    def pauseAction(self):
+        if not self.paused:
+            self.timer.stop()
+            self.paused = True
+            self.pauseButton.setText('Resume')
+        else:
+            self.timer.start()
+            self.paused = False
+            self.pauseButton.setText('Pause    ')
+
 
     def initUI(self):
         self.setGeometry(300, 30, 900, 700)
@@ -44,24 +65,28 @@ class Main(QMainWindow):
         self.show()
 
     def initGame(self):
+        self.paused = False
         self.agent = Agent()
         self.agent.addBombs(amount=50)
         self.agent.addBombs(amount=30, scope=2)
         self.agent.addBombs(amount=15, scope=3)
         self.agent.addBombs(amount=10, scope=4)
         self.agent.addBombs(amount=5, scope=5)
+        self.board = None
         self.board = Board(self.agent, 41, 41)
-        self.timers = []
+        self.timer = None
         self.timer = QTimer()
         self.timer.setInterval(700)
+        self.mainTimer = None
+        self.mainTimer = QTimer()
+        self.mainTimer.setInterval(30)
+        self.timers = []
         self.timer.timeout.connect(lambda: self.board.moveEnemy(self.board.enemy1))
         self.timer.timeout.connect(lambda: self.board.moveEnemy(self.board.enemy2))
         self.timer.timeout.connect(lambda: self.board.moveEnemy(self.board.enemy3))
         self.timer.timeout.connect(lambda: self.board.moveEnemy(self.board.enemy4))
         self.timer.timeout.connect(lambda: self.board.moveEnemy(self.board.enemy5))
         self.timer.start()
-        self.mainTimer = QTimer()
-        self.mainTimer.setInterval(30)
         self.mainTimer.timeout.connect(self.repaint)
         self.mainTimer.start()
 
@@ -70,6 +95,9 @@ class Main(QMainWindow):
         qp.begin(self)
         if not self.board.agent.isDead():
             self.drawBoard(qp)
+            self.scoreLabel.setText('Score: {0}   '.format(self.board.score))
+        else:
+            self.drawRectangle(qp)
         qp.end()
 
     def drawStone(self, qp, moveX, moveY, sizeX=15, sizeY=15):
@@ -127,6 +155,14 @@ class Main(QMainWindow):
         col.setNamedColor('#d4d4d4')
         qp.drawPixmap(moveX, moveY, sizeX, sizeY, QPixmap(os.getcwd() + '\\enemy.png'))
 
+    def drawRectangle(self, qp):
+        #white
+        col = QColor(0, 0, 0)
+        col.setNamedColor('#d4d4d4')
+        qp.setPen(col)
+        qp.setBrush(QColor(100, 100, 100))
+        qp.drawRect(0, 0, self.board.xSize*17, self.board.ySize*17)
+
 
     def drawBoard(self, qp):
         for x in range(0, self.board.xSize):
@@ -154,60 +190,71 @@ class Main(QMainWindow):
 
 
     def keyPressEvent(self, e):
-        if e.key() == Qt.Key_D:
-            self.board.moveAgent(Direction.RIGHT)
-        elif e.key() == Qt.Key_A:
-            self.board.moveAgent(Direction.LEFT)
-        elif e.key() == Qt.Key_W:
-            self.board.moveAgent(Direction.UP)
-        elif e.key() == Qt.Key_S:
-            self.board.moveAgent(Direction.DOWN)
-        elif e.key() == Qt.Key_Z:
-            x, y, empty = self.board.dropBomb1()
-            if not empty:
-                self.timers.append(QTimer())
-                self.timers[len(self.timers) - 1].setInterval(3000)
-                timer = self.timers[len(self.timers) - 1]
-                timer.timeout.connect(lambda: self.board.destroyWithBomb(x, y, 1))
-                timer.timeout.connect(timer.stop)
-                timer.start()
-        elif e.key() == Qt.Key_X:
-            x, y, empty = self.board.dropBomb2()
-            if not empty:
-                self.timers.append(QTimer())
-                self.timers[len(self.timers) - 1].setInterval(3000)
-                timer = self.timers[len(self.timers) - 1]
-                timer.timeout.connect(lambda: self.board.destroyWithBomb(x, y, 2))
-                timer.timeout.connect(timer.stop)
-                timer.start()
-        elif e.key() == Qt.Key_C:
-            x, y, empty = self.board.dropBomb3()
-            if not empty:
-                self.timers.append(QTimer())
-                self.timers[len(self.timers) - 1].setInterval(3000)
-                timer = self.timers[len(self.timers) - 1]
-                timer.timeout.connect(lambda: self.board.destroyWithBomb(x, y, 3))
-                timer.timeout.connect(timer.stop)
-                timer.start()
-        elif e.key() == Qt.Key_V:
-            x, y, empty = self.board.dropBomb4()
-            if not empty:
-                self.timers.append(QTimer())
-                self.timers[len(self.timers) - 1].setInterval(3000)
-                timer = self.timers[len(self.timers) - 1]
-                timer.timeout.connect(lambda: self.board.destroyWithBomb(x, y, 4))
-                timer.timeout.connect(timer.stop)
-                timer.start()
-        elif e.key() == Qt.Key_B:
-            x, y, empty = self.board.dropBomb5()
-            if not empty:
-                self.timers.append(QTimer())
-                self.timers[len(self.timers) - 1].setInterval(3000)
-                timer = self.timers[len(self.timers) - 1]
-                timer.timeout.connect(lambda: self.board.destroyWithBomb(x, y, 5))
-                timer.timeout.connect(timer.stop)
-                timer.start()
+        if not self.paused:
+            if e.key() == Qt.Key_Right:
+                self.board.moveAgent(Direction.RIGHT)
+            elif e.key() == Qt.Key_Left:
+                self.board.moveAgent(Direction.LEFT)
+            elif e.key() == Qt.Key_Up:
+                self.board.moveAgent(Direction.UP)
+            elif e.key() == Qt.Key_Down:
+                self.board.moveAgent(Direction.DOWN)
+            elif e.key() == Qt.Key_Z:
+                x, y, empty = self.board.dropBomb1()
+                if not empty:
+                    self.timers.append(QTimer())
+                    self.timers[len(self.timers) - 1].setInterval(3000)
+                    timer = self.timers[len(self.timers) - 1]
+                    timer.timeout.connect(lambda: self.board.destroyWithBomb(x, y, 1))
+                    timer.timeout.connect(timer.stop)
+                    timer.start()
+            elif e.key() == Qt.Key_X:
+                x, y, empty = self.board.dropBomb2()
+                if not empty:
+                    self.timers.append(QTimer())
+                    self.timers[len(self.timers) - 1].setInterval(3000)
+                    timer = self.timers[len(self.timers) - 1]
+                    timer.timeout.connect(lambda: self.board.destroyWithBomb(x, y, 2))
+                    timer.timeout.connect(timer.stop)
+                    timer.start()
+            elif e.key() == Qt.Key_C:
+                x, y, empty = self.board.dropBomb3()
+                if not empty:
+                    self.timers.append(QTimer())
+                    self.timers[len(self.timers) - 1].setInterval(3000)
+                    timer = self.timers[len(self.timers) - 1]
+                    timer.timeout.connect(lambda: self.board.destroyWithBomb(x, y, 3))
+                    timer.timeout.connect(timer.stop)
+                    timer.start()
+            elif e.key() == Qt.Key_V:
+                x, y, empty = self.board.dropBomb4()
+                if not empty:
+                    self.timers.append(QTimer())
+                    self.timers[len(self.timers) - 1].setInterval(3000)
+                    timer = self.timers[len(self.timers) - 1]
+                    timer.timeout.connect(lambda: self.board.destroyWithBomb(x, y, 4))
+                    timer.timeout.connect(timer.stop)
+                    timer.start()
+            elif e.key() == Qt.Key_B:
+                x, y, empty = self.board.dropBomb5()
+                if not empty:
+                    self.timers.append(QTimer())
+                    self.timers[len(self.timers) - 1].setInterval(3000)
+                    timer = self.timers[len(self.timers) - 1]
+                    timer.timeout.connect(lambda: self.board.destroyWithBomb(x, y, 5))
+                    timer.timeout.connect(timer.stop)
+                    timer.start()
 
+    def keyReleaseEvent(self, e):
+        if not self.paused:
+            if e.key() == Qt.Key_Right:
+                self.board.moveAgent(Direction.RIGHT)
+            elif e.key() == Qt.Key_Left:
+                self.board.moveAgent(Direction.LEFT)
+            elif e.key() == Qt.Key_Up:
+                self.board.moveAgent(Direction.UP)
+            elif e.key() == Qt.Key_Down:
+                self.board.moveAgent(Direction.DOWN)
 
     def displayBoard(self):
         os.system("cls")
@@ -246,6 +293,7 @@ class Main(QMainWindow):
                 array.append(row)
             for i in range(0, len(array)):
                 print(array[i])
+
 
 
 if __name__ == '__main__':

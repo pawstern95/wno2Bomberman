@@ -8,6 +8,7 @@ class Board:
     def __init__(self, agent, xSize = 41, ySize = 41):
         self.xSize = xSize
         self.ySize = ySize
+        self.score = 0
         self.board = np.zeros((xSize, ySize))
         self.genBoard()
         self.agent = agent
@@ -59,31 +60,38 @@ class Board:
             value1 = self.board[x][y+i]
             if value1 == 3:
                 self.board[x][y+i] = 0
+                self.score += 2
                 break
             elif value1 == 4 or value1 == 6 or value1 == 13 or value1 == 15 or value1 == 17:
                 self.board[x][y+i] = 0
+                self.score += 1
             elif value1 == 1 or value1 == 5 or value1 == 7 or value1 == 14 or value1 == 16 or value1 == 18:
                 self.board[x][y+i] = 0
                 self.agent.kill()
             elif value1 == 8:
                 self.board[x][y+i] = 0
                 self.enemy1.kill()
+                self.score += 3
                 break
             elif value1 == 9:
                 self.board[x][y+i] = 0
                 self.enemy2.kill()
+                self.score += 3
                 break
             elif value1 == 10:
                 self.board[x][y+i] = 0
                 self.enemy3.kill()
+                self.score += 3
                 break
             elif value1 == 11:
                 self.board[x][y+i] = 0
                 self.enemy4.kill()
+                self.score += 3
                 break
             elif value1 == 12:
                 self.board[x][y+i] = 0
                 self.enemy5.kill()
+                self.score += 3
                 break
             elif value1 == 2:
                 break
@@ -91,31 +99,38 @@ class Board:
             value2 = self.board[x-i][y]
             if value2 == 3:
                 self.board[x - i][y] = 0
+                self.score += 2
                 break
             elif value2 == 4 or value2 == 6 or value2 == 13 or value2 == 15 or value2 == 17:
                 self.board[x-i][y] = 0
+                self.score += 1
             elif value2 == 1 or value2 == 5 or value2 == 7 or value2 == 14 or value2 == 16 or value2 == 18:
                 self.board[x-i][y] = 0
                 self.agent.kill()
             elif value2 == 8:
                 self.board[x-i][y] = 0
                 self.enemy1.kill()
+                self.score += 3
                 break
             elif value2 == 9:
                 self.board[x-i][y] = 0
                 self.enemy2.kill()
+                self.score += 3
                 break
             elif value2 == 10:
                 self.board[x-i][y] = 0
                 self.enemy3.kill()
+                self.score += 3
                 break
             elif value2 == 11:
                 self.board[x-i][y] = 0
                 self.enemy4.kill()
+                self.score += 3
                 break
             elif value2 == 12:
                 self.board[x-i][y] = 0
                 self.enemy5.kill()
+                self.score += 3
                 break
             elif value2 == 2:
                 break
@@ -123,31 +138,38 @@ class Board:
             value3 = self.board[x+i][y]
             if value3 == 3:
                 self.board[x+i][y] = 0
+                self.score += 2
                 break
             elif value3 == 4 or value3 == 6 or value3 == 13 or value3 == 15 or value3 == 17:
                 self.board[x+i][y] = 0
+                self.score += 1
             elif value3 == 1 or value3 == 5 or value3 == 7 or value3 == 14 or value3 == 16 or value3 == 18:
                 self.board[x+i][y] = 0
                 self.agent.kill()
             elif value3 == 8:
                 self.board[x+i][y] = 0
                 self.enemy1.kill()
+                self.score += 3
                 break
             elif value3 == 9:
                 self.board[x+i][y] = 0
                 self.enemy2.kill()
+                self.score += 3
                 break
             elif value3 == 10:
                 self.board[x+i][y] = 0
                 self.enemy3.kill()
+                self.score += 3
                 break
             elif value3 == 11:
                 self.board[x+i][y] = 0
                 self.enemy4.kill()
+                self.score += 3
                 break
             elif value3 == 12:
                 self.board[x+i][y] = 0
                 self.enemy5.kill()
+                self.score += 3
                 break
             elif value3 == 2:
                 break
@@ -155,31 +177,38 @@ class Board:
             value4 = self.board[x][y-i]
             if value4 == 3:
                 self.board[x][y-i] = 0
+                self.score += 2
                 break
             elif value4 == 4 or value4 == 6 or value4 == 13 or value4 == 15 or value4 == 17:
                 self.board[x][y-i] = 0
+
             elif value4 == 1 or value4 == 5 or value4 == 7 or value4 == 14 or value4 == 16 or value4 == 18:
                 self.board[x][y-i] = 0
                 self.agent.kill()
             elif value4 == 8:
                 self.board[x][y-i] = 0
                 self.enemy1.kill()
+                self.score += 3
                 break
             elif value4 == 9:
                 self.board[x][y-i] = 0
                 self.enemy2.kill()
+                self.score += 3
                 break
             elif value4 == 10:
                 self.board[x][y-i] = 0
                 self.enemy3.kill()
+                self.score += 3
                 break
             elif value4 == 11:
                 self.board[x][y-i] = 0
                 self.enemy4.kill()
+                self.score += 3
                 break
             elif value4 == 12:
                 self.board[x][y-i] = 0
                 self.enemy5.kill()
+                self.score += 3
                 break
             elif value4 == 2:
                 break
