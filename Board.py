@@ -71,27 +71,27 @@ class Board:
             elif value1 == 8:
                 self.board[x][y+i] = 0
                 self.enemy1.kill()
-                self.score += 3
+                self.score += 10
                 break
             elif value1 == 9:
                 self.board[x][y+i] = 0
                 self.enemy2.kill()
-                self.score += 3
+                self.score += 10
                 break
             elif value1 == 10:
                 self.board[x][y+i] = 0
                 self.enemy3.kill()
-                self.score += 3
+                self.score += 10
                 break
             elif value1 == 11:
                 self.board[x][y+i] = 0
                 self.enemy4.kill()
-                self.score += 3
+                self.score += 10
                 break
             elif value1 == 12:
                 self.board[x][y+i] = 0
                 self.enemy5.kill()
-                self.score += 3
+                self.score += 10
                 break
             elif value1 == 2:
                 break
@@ -110,27 +110,27 @@ class Board:
             elif value2 == 8:
                 self.board[x-i][y] = 0
                 self.enemy1.kill()
-                self.score += 3
+                self.score += 10
                 break
             elif value2 == 9:
                 self.board[x-i][y] = 0
                 self.enemy2.kill()
-                self.score += 3
+                self.score += 10
                 break
             elif value2 == 10:
                 self.board[x-i][y] = 0
                 self.enemy3.kill()
-                self.score += 3
+                self.score += 10
                 break
             elif value2 == 11:
                 self.board[x-i][y] = 0
                 self.enemy4.kill()
-                self.score += 3
+                self.score += 10
                 break
             elif value2 == 12:
                 self.board[x-i][y] = 0
                 self.enemy5.kill()
-                self.score += 3
+                self.score += 10
                 break
             elif value2 == 2:
                 break
@@ -149,27 +149,27 @@ class Board:
             elif value3 == 8:
                 self.board[x+i][y] = 0
                 self.enemy1.kill()
-                self.score += 3
+                self.score += 10
                 break
             elif value3 == 9:
                 self.board[x+i][y] = 0
                 self.enemy2.kill()
-                self.score += 3
+                self.score += 10
                 break
             elif value3 == 10:
                 self.board[x+i][y] = 0
                 self.enemy3.kill()
-                self.score += 3
+                self.score += 10
                 break
             elif value3 == 11:
                 self.board[x+i][y] = 0
                 self.enemy4.kill()
-                self.score += 3
+                self.score += 10
                 break
             elif value3 == 12:
                 self.board[x+i][y] = 0
                 self.enemy5.kill()
-                self.score += 3
+                self.score += 10
                 break
             elif value3 == 2:
                 break
@@ -188,27 +188,27 @@ class Board:
             elif value4 == 8:
                 self.board[x][y-i] = 0
                 self.enemy1.kill()
-                self.score += 3
+                self.score += 10
                 break
             elif value4 == 9:
                 self.board[x][y-i] = 0
                 self.enemy2.kill()
-                self.score += 3
+                self.score += 10
                 break
             elif value4 == 10:
                 self.board[x][y-i] = 0
                 self.enemy3.kill()
-                self.score += 3
+                self.score += 10
                 break
             elif value4 == 11:
                 self.board[x][y-i] = 0
                 self.enemy4.kill()
-                self.score += 3
+                self.score += 10
                 break
             elif value4 == 12:
                 self.board[x][y-i] = 0
                 self.enemy5.kill()
-                self.score += 3
+                self.score += 10
                 break
             elif value4 == 2:
                 break

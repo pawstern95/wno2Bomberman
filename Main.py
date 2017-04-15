@@ -35,16 +35,21 @@ class Main(QMainWindow):
         self.initGame()
 
         self.startButton = QPushButton('New Game', self)
-        self.startButton.setGeometry(750, 200, 70, 30)
-        self.startButton.clicked.connect(lambda: self.pauseButton.setText('Pause    '))
+        self.startButton.setGeometry(720, 120, 120, 50)
+        self.startButton.clicked.connect(lambda: self.pauseButton.setText('Pause'))
         self.startButton.clicked.connect(self.initGame)
 
-        self.pauseButton = QPushButton('Pause   ', self)
-        self.pauseButton.setGeometry(750, 250, 70, 30)
+        self.pauseButton = QPushButton('Pause', self)
+        self.pauseButton.setGeometry(720, 200, 120, 50)
         self.pauseButton.clicked.connect(self.pauseAction)
 
-        self.scoreLabel = QLabel('Score: {0}   '.format(self.board.score), self)
-        self.scoreLabel.move(750, 60)
+        self.highScoreButton = QPushButton('High Scores', self)
+        self.highScoreButton.setGeometry(720, 280, 120, 50)
+
+        font = QFont('Times', 22)
+        self.scoreLabel = QLabel('Score: {0}'.format(self.board.score), self)
+        self.scoreLabel.setGeometry(720, 0, 140, 100)
+        self.scoreLabel.setFont(font)
 
         self.initUI()
 
@@ -56,7 +61,7 @@ class Main(QMainWindow):
         else:
             self.timer.start()
             self.paused = False
-            self.pauseButton.setText('Pause    ')
+            self.pauseButton.setText('Pause')
 
 
     def initUI(self):
@@ -95,7 +100,7 @@ class Main(QMainWindow):
         qp.begin(self)
         if not self.board.agent.isDead():
             self.drawBoard(qp)
-            self.scoreLabel.setText('Score: {0}   '.format(self.board.score))
+            self.scoreLabel.setText('Score: {0}'.format(self.board.score))
         else:
             self.drawRectangle(qp)
         qp.end()
