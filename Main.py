@@ -314,6 +314,7 @@ class GameScreen(QWidget):
             for i in range(0, len(array)):
                 print(array[i])
 
+
 class ScoreScreen(QWidget):
     gameClicked = pyqtSignal()
     def __init__(self):
