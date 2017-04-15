@@ -30,8 +30,28 @@ from Board import Board
 # 18 - agent with bomb5
 
 class Main(QMainWindow):
+    def __init__(self, parent=None):
+        QMainWindow.__init__(self, parent)
+        self.central_widget = QStackedWidget()
+        self.setCentralWidget(self.central_widget)
+        self.game_screen = GameScreen()
+        self.score_screen = ScoreScreen()
+        self.central_widget.addWidget(self.game_screen)
+        self.central_widget.addWidget(self.score_screen)
+        self.setGeometry(300, 30, 900, 700)
+        self.setWindowTitle('Bomberman')
+        self.central_widget.setCurrentWidget(self.game_screen)
+
+        self.game_screen.highScoreClicked.connect(lambda: self.central_widget.setCurrentWidget(self.score_screen))
+        self.game_screen.highScoreClicked.connect(self.game_screen.pauseAction)
+        self.score_screen.gameClicked.connect(lambda: self.central_widget.setCurrentWidget(self.game_screen))
+        self.score_screen.gameClicked.connect(self.game_screen.pauseAction)
+
+
+class GameScreen(QWidget):
+    highScoreClicked = pyqtSignal()
     def __init__(self):
-        super(Main, self).__init__()
+        super(GameScreen, self).__init__()
         self.initGame()
 
         self.startButton = QPushButton('New Game', self)
@@ -45,13 +65,13 @@ class Main(QMainWindow):
 
         self.highScoreButton = QPushButton('High Scores', self)
         self.highScoreButton.setGeometry(720, 280, 120, 50)
+        self.highScoreButton.clicked.connect(self.highScoreClicked.emit)
 
         font = QFont('Times', 22)
         self.scoreLabel = QLabel('Score: {0}'.format(self.board.score), self)
         self.scoreLabel.setGeometry(720, 0, 140, 100)
         self.scoreLabel.setFont(font)
 
-        self.initUI()
 
     def pauseAction(self):
         if not self.paused:
@@ -63,11 +83,6 @@ class Main(QMainWindow):
             self.paused = False
             self.pauseButton.setText('Pause')
 
-
-    def initUI(self):
-        self.setGeometry(300, 30, 900, 700)
-        self.setWindowTitle('Bomberman')
-        self.show()
 
     def initGame(self):
         self.paused = False
@@ -299,11 +314,18 @@ class Main(QMainWindow):
             for i in range(0, len(array)):
                 print(array[i])
 
-
+class ScoreScreen(QWidget):
+    gameClicked = pyqtSignal()
+    def __init__(self):
+        super(ScoreScreen, self).__init__()
+        backButton = QPushButton('Back to Game', self)
+        backButton.setGeometry(720, 120, 120, 50)
+        backButton.clicked.connect(self.gameClicked.emit)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     main = Main()
+    main.show()
     sys.exit(app.exec_())
 
 
