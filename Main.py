@@ -62,10 +62,12 @@ class GameScreen(QWidget):
         self.pauseButton = QPushButton('Pause', self)
         self.pauseButton.setGeometry(720, 200, 120, 50)
         self.pauseButton.clicked.connect(self.pauseAction)
+        self.pauseButton.setAutoExclusive(True) #dzięki temu nie używa się strzałek do zmieniania przycisków
 
         self.highScoreButton = QPushButton('High Scores', self)
         self.highScoreButton.setGeometry(720, 280, 120, 50)
         self.highScoreButton.clicked.connect(self.highScoreClicked.emit)
+
 
         font = QFont('Times', 22)
         self.scoreLabel = QLabel('Score: {0}'.format(self.board.score), self)
@@ -96,10 +98,10 @@ class GameScreen(QWidget):
         self.board = Board(self.agent, 41, 41)
         self.timer = None
         self.timer = QTimer()
-        self.timer.setInterval(700)
+        self.timer.setInterval(300)
         self.mainTimer = None
         self.mainTimer = QTimer()
-        self.mainTimer.setInterval(30)
+        self.mainTimer.setInterval(20)
         self.timers = []
         self.timer.timeout.connect(lambda: self.board.moveEnemy(self.board.enemy1))
         self.timer.timeout.connect(lambda: self.board.moveEnemy(self.board.enemy2))
@@ -108,6 +110,7 @@ class GameScreen(QWidget):
         self.timer.timeout.connect(lambda: self.board.moveEnemy(self.board.enemy5))
         self.timer.start()
         self.mainTimer.timeout.connect(self.repaint)
+        # self.mainTimer.timeout.connect(self.displayBoard)
         self.mainTimer.start()
 
     def paintEvent(self, event):
@@ -265,16 +268,6 @@ class GameScreen(QWidget):
                     timer.timeout.connect(timer.stop)
                     timer.start()
 
-    def keyReleaseEvent(self, e):
-        if not self.paused:
-            if e.key() == Qt.Key_Right:
-                self.board.moveAgent(Direction.RIGHT)
-            elif e.key() == Qt.Key_Left:
-                self.board.moveAgent(Direction.LEFT)
-            elif e.key() == Qt.Key_Up:
-                self.board.moveAgent(Direction.UP)
-            elif e.key() == Qt.Key_Down:
-                self.board.moveAgent(Direction.DOWN)
 
     def displayBoard(self):
         os.system("cls")
@@ -322,6 +315,9 @@ class ScoreScreen(QWidget):
         backButton = QPushButton('Back to Game', self)
         backButton.setGeometry(720, 120, 120, 50)
         backButton.clicked.connect(self.gameClicked.emit)
+
+
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
