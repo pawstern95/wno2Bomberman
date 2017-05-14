@@ -7,6 +7,7 @@ import threading
 from Objects import Direction
 from Characters import Agent
 from Board import Board
+import random
 
 
 # objects on board:
@@ -54,15 +55,15 @@ class GameScreen(QWidget):
         super(GameScreen, self).__init__()
         self.initGame()
 
-        self.startButton = QPushButton('New Game', self)
-        self.startButton.setGeometry(720, 120, 120, 50)
-        self.startButton.clicked.connect(lambda: self.pauseButton.setText('Pause'))
-        self.startButton.clicked.connect(self.initGame)
-
         self.pauseButton = QPushButton('Pause', self)
         self.pauseButton.setGeometry(720, 200, 120, 50)
         self.pauseButton.clicked.connect(self.pauseAction)
         self.pauseButton.setAutoExclusive(True) #dzięki temu nie używa się strzałek do zmieniania przycisków
+
+        self.startButton = QPushButton('New Game', self)
+        self.startButton.setGeometry(720, 120, 120, 50)
+        self.startButton.clicked.connect(lambda: self.pauseButton.setText('Pause'))
+        self.startButton.clicked.connect(self.initGame)
 
         self.highScoreButton = QPushButton('High Scores', self)
         self.highScoreButton.setGeometry(720, 280, 120, 50)
@@ -98,7 +99,9 @@ class GameScreen(QWidget):
         self.board = Board(self.agent, 41, 41)
         self.timer = None
         self.timer = QTimer()
-        self.timer.setInterval(300)
+        self.timer.setInterval(1000)
+        self.autoPlayTimer = QTimer()
+        self.autoPlayTimer.setInterval(500)
         self.mainTimer = None
         self.mainTimer = QTimer()
         self.mainTimer.setInterval(20)
@@ -110,6 +113,7 @@ class GameScreen(QWidget):
         self.timer.timeout.connect(lambda: self.board.moveEnemy(self.board.enemy5))
         self.timer.start()
         self.mainTimer.timeout.connect(self.repaint)
+        self.autoPlayTimer.timeout.connect(lambda: self.autoPlay(self.board.agent))
         # self.mainTimer.timeout.connect(self.displayBoard)
         self.mainTimer.start()
 
@@ -211,6 +215,78 @@ class GameScreen(QWidget):
                 elif value == 8 or value == 9 or value == 10 or value == 11 or value == 12:
                     self.drawEnemy(qp, moveX, moveY, sizeX, sizeY)
 
+    def autoPlay(self, agent):
+        x, y = agent.getPosition()
+        if agent.direction == 1:
+            if random.randrange(0, 6) == 3:
+                agent.direction = random.randrange(1, 5)
+            if self.board.board[x][y+1] == 0:
+                self.board.moveAgent(Direction.RIGHT)
+
+            elif self.board.board[x][y+1]==3:
+                x, y, empty = self.board.dropBomb1()
+                if not empty:
+                    self.timers.append(QTimer())
+                    self.timers[len(self.timers) - 1].setInterval(5000)
+                    timer = self.timers[len(self.timers) - 1]
+                    timer.timeout.connect(lambda: self.board.destroyWithBomb(x, y, 1))
+                    timer.timeout.connect(timer.stop)
+                    timer.start()
+                agent.direction = 2
+            else:
+                agent.direction = random.randrange(1,5)
+        elif agent.direction == 2:
+            if random.randrange(0, 6) == 3:
+                agent.direction = random.randrange(1, 5)
+            if self.board.board[x][y - 1] == 0:
+                self.board.moveAgent(Direction.LEFT)
+            elif self.board.board[x][y - 1] == 3:
+                x, y, empty = self.board.dropBomb1()
+                if not empty:
+                    self.timers.append(QTimer())
+                    self.timers[len(self.timers) - 1].setInterval(5000)
+                    timer = self.timers[len(self.timers) - 1]
+                    timer.timeout.connect(lambda: self.board.destroyWithBomb(x, y, 1))
+                    timer.timeout.connect(timer.stop)
+                    timer.start()
+                agent.direction = 1
+            else:
+                agent.direction =  random.randrange(1,5)
+        elif agent.direction == 3:
+            if random.randrange(0,6) == 3:
+                agent.direction = random.randrange(1,5)
+            if self.board.board[x - 1][y] == 0:
+                self.board.moveAgent(Direction.UP)
+            elif self.board.board[x-1][y] == 3:
+                x, y, empty = self.board.dropBomb1()
+                if not empty:
+                    self.timers.append(QTimer())
+                    self.timers[len(self.timers) - 1].setInterval(5000)
+                    timer = self.timers[len(self.timers) - 1]
+                    timer.timeout.connect(lambda: self.board.destroyWithBomb(x, y, 1))
+                    timer.timeout.connect(timer.stop)
+                    timer.start()
+                agent.direction = 4
+            else:
+                agent.direction =  random.randrange(1,5)
+        elif agent.direction == 4:
+            if random.randrange(0,6) == 3:
+                agent.direction = random.randrange(1,5)
+            if self.board.board[x + 1][y] == 0:
+                self.board.moveAgent(Direction.DOWN)
+            elif self.board.board[x+1][y] == 3:
+                x, y, empty = self.board.dropBomb1()
+                if not empty:
+                    self.timers.append(QTimer())
+                    self.timers[len(self.timers) - 1].setInterval(5000)
+                    timer = self.timers[len(self.timers) - 1]
+                    timer.timeout.connect(lambda: self.board.destroyWithBomb(x, y, 1))
+                    timer.timeout.connect(timer.stop)
+                    timer.start()
+                agent.direction = 3
+            else:
+                agent.direction =  random.randrange(1,5)
+
 
     def keyPressEvent(self, e):
         if not self.paused:
@@ -267,6 +343,10 @@ class GameScreen(QWidget):
                     timer.timeout.connect(lambda: self.board.destroyWithBomb(x, y, 5))
                     timer.timeout.connect(timer.stop)
                     timer.start()
+            elif e.key() == Qt.Key_Q:
+                self.autoPlayTimer.start()
+            elif e.key() == Qt.Key_W:
+                self.autoPlayTimer.stop()
 
 
     def displayBoard(self):

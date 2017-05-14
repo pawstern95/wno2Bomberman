@@ -46,6 +46,7 @@ class Agent(Character):
     bombs3 = []
     bombs2 = []
     bombs1 = []
+    direction = 1
 
     def addBombs(self, amount=5, scope=1):
         if scope == 1:

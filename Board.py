@@ -341,6 +341,9 @@ class Board:
                 else:
                     enemy.direction = 1
 
+
+
+
     def genBoard(self):
         for x in range(0, self.xSize):
             for y in range(0, self.ySize):
