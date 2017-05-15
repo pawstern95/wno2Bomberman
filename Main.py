@@ -218,8 +218,8 @@ class GameScreen(QWidget):
     def autoPlay(self, agent):
         x, y = agent.getPosition()
         if agent.direction == 1:
-            if random.randrange(0, 6) == 3:
-                agent.direction = random.randrange(1, 5)
+            if random.randrange(0, 5) == 3:
+                agent.direction = random.choice([3,4])
             if self.board.board[x][y+1] == 0:
                 self.board.moveAgent(Direction.RIGHT)
 
@@ -234,10 +234,10 @@ class GameScreen(QWidget):
                     timer.start()
                 agent.direction = 2
             else:
-                agent.direction = random.randrange(1,5)
+                agent.direction = random.choice([2,3,4])
         elif agent.direction == 2:
-            if random.randrange(0, 6) == 3:
-                agent.direction = random.randrange(1, 5)
+            if random.randrange(0, 5) == 3:
+                agent.direction = random.choice([3,4])
             if self.board.board[x][y - 1] == 0:
                 self.board.moveAgent(Direction.LEFT)
             elif self.board.board[x][y - 1] == 3:
@@ -251,10 +251,10 @@ class GameScreen(QWidget):
                     timer.start()
                 agent.direction = 1
             else:
-                agent.direction =  random.randrange(1,5)
+                agent.direction =  random.choice([1,3,4])
         elif agent.direction == 3:
-            if random.randrange(0,6) == 3:
-                agent.direction = random.randrange(1,5)
+            if random.randrange(0,5) == 3:
+                agent.direction = random.choice([1,2])
             if self.board.board[x - 1][y] == 0:
                 self.board.moveAgent(Direction.UP)
             elif self.board.board[x-1][y] == 3:
@@ -268,10 +268,10 @@ class GameScreen(QWidget):
                     timer.start()
                 agent.direction = 4
             else:
-                agent.direction =  random.randrange(1,5)
+                agent.direction =  random.choice([1,2,4])
         elif agent.direction == 4:
-            if random.randrange(0,6) == 3:
-                agent.direction = random.randrange(1,5)
+            if random.randrange(0,5) == 3:
+                agent.direction = random.choice([3,4])
             if self.board.board[x + 1][y] == 0:
                 self.board.moveAgent(Direction.DOWN)
             elif self.board.board[x+1][y] == 3:
@@ -285,7 +285,7 @@ class GameScreen(QWidget):
                     timer.start()
                 agent.direction = 3
             else:
-                agent.direction =  random.randrange(1,5)
+                agent.direction =  random.choice([1,2,3])
 
 
     def keyPressEvent(self, e):
